@@ -3,7 +3,7 @@ package net.axxal.services
 import net.axxal.types.*
 
 object SitePostService {
-    val posts: Array<SitePost> = arrayOf(SitePost(1, "Debut Gig", "Live performance with four songs at Tuben Farsta!", null))
+    var posts: Array<SitePost> = arrayOf(SitePost(1, "Debut Gig", "Live performance with four songs at Tuben Farsta!", null))
 
     fun getAll(): Array<SitePost> {
         return posts
@@ -15,5 +15,10 @@ object SitePostService {
         } catch (e: NoSuchElementException) {
             return null
         }
+    }
+
+    fun save(newPost: SitePost): SitePost {
+        posts += newPost
+        return newPost
     }
 }

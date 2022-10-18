@@ -1,13 +1,12 @@
 package net.axxal.plugins
 
-import io.ktor.server.routing.*
-import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.response.*
 import io.ktor.server.request.*
-
-import net.axxal.services.*
-import net.axxal.types.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import net.axxal.services.SitePostService
+import net.axxal.types.ApiMessage
+import net.axxal.types.SitePost
 
 fun Application.configureRouting() {
     routing {
@@ -24,6 +23,12 @@ fun Application.configureRouting() {
                 return@get call.respond(ApiMessage(false, "Not Found"))
 
             call.respond(sitePost)
+        }
+
+        post("/post") {
+            val newPost = call.receive<SitePost>()
+            SitePostService.save(newPost)
+            call.respond(newPost)
         }
     }
 }
