@@ -8,35 +8,22 @@ import io.ktor.server.request.*
 
 import net.axxal.services.*
 import net.axxal.types.*
-import net.axxal.types.api.*
 
 fun Application.configureRouting() {
     routing {
         get("/post/all") {
             val posts: Array<SitePost> = SitePostService.getAll()
-            call.respond(
-                ApiResponse(true, posts),
-                HttpStatusCode.OK
-            )
+            call.respond(posts)
         }
 
         get("/post/{id?}") {
             val id = call.parameters["id"] ?:
-                return@get call.respond(
-                    ApiResponse(false, null),
-                    HttpStatusCode.BadRequest
-                )
+                return@get call.respond(ApiMessage(false, "Bad Request"))
 
             val sitePost: SitePost = SitePostService.getById(id.toInt()) ?:
-                return@get call.respond(
-                    ApiResponse(false, null),
-                    HttpStatusCode.NotFound
-                )
+                return@get call.respond(ApiMessage(false, "Not Found"))
 
-            call.respond(
-                ApiResponse(true, sitePost),
-                HttpStatusCode.OK
-            )
+            call.respond(sitePost)
         }
     }
 }

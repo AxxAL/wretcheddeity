@@ -10,6 +10,10 @@ object SitePostService {
     }
 
     fun getById(id: Int): SitePost? {
-        return posts.first { p -> p.id == id } ?: null
+        try {
+            return posts.first { p -> p.id == id }
+        } catch (e: NoSuchElementException) {
+            return null
+        }
     }
 }
