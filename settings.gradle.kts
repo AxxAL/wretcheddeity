@@ -1,1 +1,1 @@
-rootProject.name = "axxal.net.wretcheddeity"
+rootProject.name = "net.axxal.wretcheddeity"

@@ -8,4 +8,8 @@ object SitePostService {
     fun getAll(): Array<SitePost> {
         return posts
     }
+
+    fun getById(id: Int): SitePost? {
+        return posts.first { p -> p.id == id } ?: null
+    }
 }
