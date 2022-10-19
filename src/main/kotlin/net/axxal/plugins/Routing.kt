@@ -29,10 +29,8 @@ fun Application.configureRouting() {
                     val id: String = call.parameters["id"] ?:
                         return@get call.respond(ApiMessage(false, "Bad Request"))
                     
-                    var post: SitePost
-
-                    try {
-                        post = SitePostService.getById(id)
+                    val post: SitePost = try {
+                        SitePostService.getById(id)
                     } catch (e: NoSuchElementException) {
                         return@get call.respond(ApiMessage(false, "Not Found"))
                     }
