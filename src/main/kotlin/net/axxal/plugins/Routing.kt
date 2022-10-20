@@ -20,7 +20,7 @@ fun Application.configureRouting() {
 
                 // Endpoint returns all saved site posts
                 get("/all") {
-                    val posts: Array<SitePost> = SitePostService.getAll()
+                    val posts: ArrayList<SitePost> = SitePostService.getAll()
                     call.respond(posts)
                 }
                 
@@ -40,6 +40,17 @@ fun Application.configureRouting() {
                     val newPost: SitePost = call.receive<SitePost>()
                     val result: SitePost = SitePostService.save(newPost)
                     call.respond(result)
+                }
+
+                // Ednpoint attempts to remove a post
+                delete("/{id?}") {
+                    val id: String = call.parameters["id"] ?:
+                        return@delete call.respond(ApiMessage(false, "Bad Request"))
+
+                    val post: SitePost = SitePostService.delete(id) ?:
+                        return@delete call.respond(ApiMessage(false, "Not Found"))
+
+                    call.respond(post)
                 }
 
             }
