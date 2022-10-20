@@ -10,8 +10,12 @@ object SitePostService {
         return posts
     }
 
-    fun getById(id: String): SitePost {
-        return posts.first { p -> p.id.equals(id) } ?: throw NoSuchElementException("SitePost not found.")
+    fun getById(id: String): SitePost? {
+        return try {
+            posts.first { p -> p.id.equals(id) }
+        } catch (e: NoSuchElementException) {
+            return null
+        }
     }
 
     fun save(newPost: SitePost): SitePost {
